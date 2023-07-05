@@ -1,55 +1,66 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
-import Link from 'next/link'
-import LogoutButton from '../components/LogoutButton'
-import SupabaseLogo from '../components/SupabaseLogo'
-import NextJsLogo from '../components/NextJsLogo'
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
+import Link from "next/link";
+import Image from "next/image";
+import LogoutButton from "../components/LogoutButton";
+import SupabaseLogo from "../components/SupabaseLogo";
+import VideoEmbed from "../components/VideoEmbed";
 
 const resources = [
   {
-    title: 'Cookie-based Auth and the Next.js App Router',
+    title: "Cookie-based Auth and the Next.js App Router",
     subtitle:
-      'This free course by Jon Meyers, shows you how to configure Supabase Auth to use cookies, and steps through some common patterns.',
-    url: 'https://youtube.com/playlist?list=PL5S4mPUpp4OtMhpnp93EFSo42iQ40XjbF',
-    icon: 'M7 4V20M17 4V20M3 8H7M17 8H21M3 12H21M3 16H7M17 16H21M4 20H20C20.5523 20 21 19.5523 21 19V5C21 4.44772 20.5523 4 20 4H4C3.44772 4 3 4.44772 3 5V19C3 19.5523 3.44772 20 4 20Z',
+      "This free course by Jon Meyers, shows you how to configure Supabase Auth to use cookies, and steps through some common patterns.",
+    url: "https://youtube.com/playlist?list=PL5S4mPUpp4OtMhpnp93EFSo42iQ40XjbF",
+    icon: "M7 4V20M17 4V20M3 8H7M17 8H21M3 12H21M3 16H7M17 16H21M4 20H20C20.5523 20 21 19.5523 21 19V5C21 4.44772 20.5523 4 20 4H4C3.44772 4 3 4.44772 3 5V19C3 19.5523 3.44772 20 4 20Z",
   },
   {
-    title: 'Supabase Next.js App Router Example',
+    title: "Supabase Next.js App Router Example",
     subtitle:
-      'Want to see a code example containing some common patterns with Next.js and Supabase? Check out this repo!',
-    url: 'https://github.com/supabase/supabase/tree/master/examples/auth/nextjs',
-    icon: 'M10 20L14 4M18 8L22 12L18 16M6 16L2 12L6 8',
+      "Want to see a code example containing some common patterns with Next.js and Supabase? Check out this repo!",
+    url: "https://github.com/supabase/supabase/tree/master/examples/auth/nextjs",
+    icon: "M10 20L14 4M18 8L22 12L18 16M6 16L2 12L6 8",
   },
   {
-    title: 'Supabase Auth Helpers Docs',
+    title: "Supabase Auth Helpers Docs",
     subtitle:
-      'This template has configured Supabase Auth to use cookies for you, but the docs are a great place to learn more.',
-    url: 'https://supabase.com/docs/guides/auth/auth-helpers/nextjs',
-    icon: 'M12 6.25278V19.2528M12 6.25278C10.8321 5.47686 9.24649 5 7.5 5C5.75351 5 4.16789 5.47686 3 6.25278V19.2528C4.16789 18.4769 5.75351 18 7.5 18C9.24649 18 10.8321 18.4769 12 19.2528M12 6.25278C13.1679 5.47686 14.7535 5 16.5 5C18.2465 5 19.8321 5.47686 21 6.25278V19.2528C19.8321 18.4769 18.2465 18 16.5 18C14.7535 18 13.1679 18.4769 12 19.2528',
+      "This template has configured Supabase Auth to use cookies for you, but the docs are a great place to learn more.",
+    url: "https://supabase.com/docs/guides/auth/auth-helpers/nextjs",
+    icon: "M12 6.25278V19.2528M12 6.25278C10.8321 5.47686 9.24649 5 7.5 5C5.75351 5 4.16789 5.47686 3 6.25278V19.2528C4.16789 18.4769 5.75351 18 7.5 18C9.24649 18 10.8321 18.4769 12 19.2528M12 6.25278C13.1679 5.47686 14.7535 5 16.5 5C18.2465 5 19.8321 5.47686 21 6.25278V19.2528C19.8321 18.4769 18.2465 18 16.5 18C14.7535 18 13.1679 18.4769 12 19.2528",
   },
-]
+];
 
 const examples = [
-  { type: 'Client Components', src: 'app/_examples/client-component/page.tsx' },
-  { type: 'Server Components', src: 'app/_examples/server-component/page.tsx' },
-  { type: 'Server Actions', src: 'app/_examples/server-action/page.tsx' },
-  { type: 'Route Handlers', src: 'app/_examples/route-handler.ts' },
-  { type: 'Middleware', src: 'app/middleware.ts' },
-  { type: 'Protected Routes', src: 'app/_examples/protected/page.tsx' },
-]
+  { type: "Client Components", src: "app/_examples/client-component/page.tsx" },
+  { type: "Server Components", src: "app/_examples/server-component/page.tsx" },
+  { type: "Server Actions", src: "app/_examples/server-action/page.tsx" },
+  { type: "Route Handlers", src: "app/_examples/route-handler.ts" },
+  { type: "Middleware", src: "app/middleware.ts" },
+  { type: "Protected Routes", src: "app/_examples/protected/page.tsx" },
+];
 
 export default async function Index() {
-  const supabase = createServerComponentClient({ cookies })
+  const supabase = createServerComponentClient({ cookies });
 
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = await supabase.auth.getUser();
 
   return (
     <div className="w-full flex flex-col items-center">
       <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
         <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm text-foreground">
-          <div />
+          <Image
+            src="/favicon-32x32.png"
+            alt="Justme.dev"
+            className="w-4 h-4 lg:w-8 lg:h-8"
+            width={16}
+            height={16}
+          />
+
+          <div className="font-iter text-1xl md:text-2xl font-bold pl-10">
+            Justme.dev
+          </div>
           <div>
             {user ? (
               <div className="flex items-center gap-4">
@@ -68,27 +79,39 @@ export default async function Index() {
         </div>
       </nav>
 
-      <div className="animate-in flex flex-col gap-14 opacity-0 max-w-4xl px-3 py-16 lg:py-24 text-foreground">
-        <div className="flex flex-col items-center mb-4 lg:mb-12">
-          <div className="flex gap-8 justify-center items-center">
-            <Link href="https://supabase.com/" target="_blank">
-              <SupabaseLogo />
-            </Link>
-            <span className="border-l rotate-45 h-6" />
-            <NextJsLogo />
-          </div>
-          <h1 className="sr-only">Supabase and Next.js Starter Template</h1>
-          <p className="text-3xl lg:text-4xl !leading-tight mx-auto max-w-xl text-center my-12">
-            The fastest way to start building apps with{' '}
-            <strong>Supabase</strong> and <strong>Next.js</strong>
-          </p>
-          <div className="bg-foreground py-3 px-6 rounded-lg font-mono text-sm text-background">
-            Get started by editing <strong>app/page.tsx</strong>
-          </div>
+      <div className="w-full animate-in flex items-center justify-center h-screen dark:text-white">
+        <Image
+          className=" border-4 border-gray-900 dark:border-gray-100 rounded-full w-32 md:w-64"
+          alt="Jonny van der Hoeven"
+          src="/jonny.jpg"
+          width={128}
+          height={128}
+        />
+        <div className="text-2xl md:text-4xl font-bold pl-10">
+          <div className="font-inter">Justme.dev</div>
+          <a
+            href="mailto:jonny@justme.dev"
+            className="text-xs hover:text-gray-900 dark:hover:text-gray-300"
+          >
+            jonny@justme.dev
+          </a>
         </div>
+      </div>
 
+      <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-10 justify-center p-10 bg-gray-600 dark:text-white dark:bg-gray-700">
+        <VideoEmbed
+          src="https://www.youtube-nocookie.com/embed/videoseries?list=PLFJTjjyvdWZw3sQ3i1lZih1pcmtLKM92i"
+          title="Cool tech and frameworks"
+        />
         <div className="w-full p-[1px] bg-gradient-to-r from-transparent via-foreground/10 to-transparent" />
 
+        <VideoEmbed
+          src="https://www.youtube-nocookie.com/embed/videoseries?list=PLFJTjjyvdWZy5AJb4E0khbbCBi4YmkvPk"
+          title="Cool tech and frameworks"
+        />
+      </div>
+
+      <div className="animate-in flex flex-col gap-14 opacity-0 max-w-4xl px-3 py-16 lg:py-24 text-foreground">
         <div className="flex flex-col gap-8 text-foreground">
           <h2 className="text-lg font-bold text-center">
             Everything you need to get started
@@ -173,7 +196,7 @@ export default async function Index() {
 
         <div className="flex justify-center text-center text-xs">
           <p>
-            Powered by{' '}
+            Powered by{" "}
             <Link
               href="https://supabase.com/"
               target="_blank"
@@ -185,5 +208,5 @@ export default async function Index() {
         </div>
       </div>
     </div>
-  )
+  );
 }
